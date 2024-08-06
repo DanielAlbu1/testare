@@ -115,12 +115,13 @@ static void ieee_cb(esp_zb_zdp_status_t zdo_status, esp_zb_ieee_addr_t ieee_addr
         bind_req.cluster_id = ESP_ZB_ZCL_CLUSTER_ID_ON_OFF;
         bind_req.dst_addr_mode = ESP_ZB_ZDO_BIND_DST_ADDR_MODE_64_BIT_EXTENDED;
         esp_zb_get_long_address(bind_req.dst_address_u.addr_long);
-        bind_req.dst_endp = HA_ONOFF_SWITCH_ENDPOINT;
+        bind_req.dst_endp = HA_ONOFF_SWITCH_ENDPOINT; 
         bind_req.req_dst_addr = on_off_light.short_addr;
         static zdo_info_user_ctx_t test_info_ctx;
         test_info_ctx.endpoint = HA_ONOFF_SWITCH_ENDPOINT;
         test_info_ctx.short_addr = on_off_light.short_addr;
         esp_zb_zdo_device_bind_req(&bind_req, bind_cb, (void *) & (test_info_ctx));
+        
     }
 }
 
@@ -276,13 +277,13 @@ static esp_err_t zb_action_handler(esp_zb_core_action_callback_id_t callback_id,
     esp_err_t ret = ESP_OK;
     switch (callback_id) {
     case ESP_ZB_CORE_REPORT_ATTR_CB_ID:
-        ret = zb_attribute_reporting_handler((esp_zb_zcl_report_attr_message_t *)message);
+        ret = zb_attribute_reporting_handler((esp_zb_zcl_report_attr_message_t *)message);// asta e apalata ca reportarea constanta a atributelor facuta in acel bind
         break;
     case ESP_ZB_CORE_CMD_READ_ATTR_RESP_CB_ID:
-        ret = zb_read_attr_resp_handler((esp_zb_zcl_cmd_read_attr_resp_message_t *)message);
+        ret = zb_read_attr_resp_handler((esp_zb_zcl_cmd_read_attr_resp_message_t *)message); // asta e apelata in cazul in care este apelata functia de citire a aatributelor 
         break;
     case ESP_ZB_CORE_CMD_REPORT_CONFIG_RESP_CB_ID:
-        ret = zb_configure_report_resp_handler((esp_zb_zcl_cmd_config_report_resp_message_t *)message);
+        ret = zb_configure_report_resp_handler((esp_zb_zcl_cmd_config_report_resp_message_t *)message); // conffirma ca configurarea reportului a fost facuta cu succes
         break;
     default:
         ESP_LOGW(TAG, "Receive Zigbee action(0x%x) callback", callback_id);
@@ -290,7 +291,7 @@ static esp_err_t zb_action_handler(esp_zb_core_action_callback_id_t callback_id,
     }
     return ret;
 }
-
+idcle
 static void esp_zb_task(void *pvParameters)
 {
     /* initialize Zigbee stack */
